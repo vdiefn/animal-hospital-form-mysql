@@ -1,0 +1,12 @@
+*           text=auto
+
+# Source code
+*.css       text diff=css
+*.html      text diff=html
+*.js        text
+*.json      text
+
+# Documentation
+*.markdown  text diff=markdown
+*.md        text diff=markdown
+*.txt       text
