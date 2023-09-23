@@ -9,24 +9,23 @@
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/6c6cfe501b.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="d-flex flex-column h-100 bg-light">
   <!-- Navbar -->
-
+  {{> header}}
   <main role="main">
     
     <div class="album bg-light">
       <img src="https://i.imgur.com/O1xYOzv.jpg" width="100%">
+      <div class="album container pt-5">
+        {{> messages}}
+        {{{body}}}
+      </div>
     </div>
 
-
-    
-      {{{body}}}
-    
-    
   </main>
 
 
-
+  {{> footer}}
   
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
