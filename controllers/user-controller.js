@@ -23,7 +23,22 @@ const userController = {
         res.redirect('/signin')
       })
       .catch(err => next(err))
+  },
+  signInPage: (req, res, next) => {
+    res.render('signin')
+  },
+  signIn: (req, res, next) => {
+    req.flash('success_messages', '成功登入！')
+    res.redirect('/hospitals')
+  },
+  logout: (req, res, next) => {
+    req.logout(function(err){
+      if (err) {
+        return next(err)
+      }
+      req.flash('success_messages', '成功登出！')
+      res.redirect('/hospitals')
+    })
   }
-}
-
+}  
 module.exports = userController
