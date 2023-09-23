@@ -3,6 +3,7 @@ const router = express.Router()
 const hospitalController = require('../controllers/hospital-controller')
 const userController = require('../controllers/user-controller')
 const admin = require('./modules/admin')
+const { authenticated } = require('../middleware/auth')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const passport = require('../config/passport')
 
