@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const { authenticatedAdmin } = require('../../middleware/auth')
 const adminController = require('../../controllers/admin-controller')
 
 
-router.get('/hospitals', authenticatedAdmin, adminController.getHospitals)
 
-router.use('/', (req, res) => res.redirect('/admin/hospitals'))
+
+router.get('/hospitals/create', adminController.createHospital)
+router.post('/hospitals', adminController.postHospital)
+
+router.get('/hospitals', adminController.getHospitals)
+
+router.use('/hospitals', (req, res) => res.redirect('/admin/hospitals'))
 
 module.exports = router

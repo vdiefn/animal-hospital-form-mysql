@@ -13,7 +13,8 @@ node_modules
 *.log
 *.gz
 /temp
-upload
+temp/
+upload/
 
 # dotenv
 .env

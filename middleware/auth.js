@@ -8,9 +8,9 @@ const authenticated = (req, res, next) => {
 const authenticatedAdmin = (req, res, next) => {
   if(ensureAuthenticated(req)) {
     if(getUser(req).isAdmin) return next()
-    res.redirect('/')
+    res.redirect('/hospitals')
   } else {
-    res.redirect('./signin')
+    res.redirect('/signin')
   }
 }
 
