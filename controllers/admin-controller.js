@@ -39,6 +39,16 @@ const adminController = {
       res.redirect('/admin/hospitals')
     })
     .catch(err => next(err))
+  },
+  getHospital:(req, res, next) => {
+    Hospital.findByPk(req.params.id, {
+      raw: true
+    })
+    .then(hospital => {
+      if(!hospital) throw new Error('該家醫院不存在！')
+      res.render('admin/hospital', { hospital })
+    })
+    .catch(err => next(err))
   }
 }
 
