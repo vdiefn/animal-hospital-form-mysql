@@ -6,7 +6,7 @@
         <div class="card-body">
           <h5 class="card-title text-center fs-4 fw-bold" style="color: #2d4c80"><i class="fa-regular fa-hospital"style="color: #2d4c80;"></i> 修改醫院資訊</h5>
           <hr>
-          <form method="POST" action="/admin/hospitals/{{hospital.id}}?_method=PUT">
+          <form method="POST" action="/admin/hospitals/{{hospital.id}}?_method=PUT" enctype="multipart/form-data">
 
             {{> admin-hospital-form}}
 

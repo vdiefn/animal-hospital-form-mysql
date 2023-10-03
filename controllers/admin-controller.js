@@ -1,4 +1,5 @@
 const { Hospital } = require('../models')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getHospitals: (req, res, next) => {
@@ -16,23 +17,25 @@ const adminController = {
     return res.render('admin/create-hospital')
   },
   postHospital: (req, res, next) => {
-    const { name, city, tel, address, description, image, openingHours, closingHours, website } = req.body
+    const { name, city, tel, address, description, openingHours, closingHours, website } = req.body
+    const { file } = req
     if (!name ) throw new Error('請填上醫院名稱！')
     if (!city) throw new Error('請填上醫院所在縣市！')
     if (!tel) throw new Error('請填上醫院電話號碼！')
     if (!openingHours || !closingHours) throw new Error('請填上醫院營業時間！')
     if (!description) throw new Error('請填上醫院簡介！')
-    Hospital.create({
-      name,
-      city,
-      tel,
-      address,
-      description,
-      image,
-      openingHours,
-      closingHours,
-      website
-    })
+    localFileHandler(file)
+      .then(filePath => Hospital.create({
+        name,
+        city,
+        tel,
+        address,
+        description,
+        image: filePath || null,
+        openingHours,
+        closingHours,
+        website
+      }))
     .then(() => {
       req.flash('success_messages', '已成功新增醫院資訊！')
       res.redirect('/admin/hospitals')
@@ -60,31 +63,45 @@ const adminController = {
     .catch(err => next(err))
   },
   putHospital: (req, res, next) => {
-    const { name, city, tel, address, description, image, openingHours, closingHours, website } = req.body
+    const { name, city, tel, address, description, openingHours, closingHours, website } = req.body
+    const { file } = req
     if (!name) throw new Error('請填上醫院名稱！')
     if (!city) throw new Error('請填上醫院所在縣市！')
     if (!tel) throw new Error('請填上醫院電話號碼！')
     if (!openingHours || !closingHours) throw new Error('請填上醫院營業時間！')
     if (!description) throw new Error('請填上醫院簡介！')
-    Hospital.findByPk(req.params.id )
+    Promise.all([
+      Hospital.findByPk(req.params.id),
+      localFileHandler(file)
+  ])
+    .then(([hospital, filePath]) => {
+      if(!hospital) throw new error('該醫院不存在！')
+      return hospital.update({
+        name,
+        city,
+        address,
+        description,
+        openingHours,
+        closingHours,
+        website,
+        image: filePath || hospital.image
+      })
+    })
+    .then(() => {
+      req.flash('success_messages', '已成功修改醫院資訊！')
+      res.redirect('/admin/hospitals')
+    })
+    .catch(err => next(err))
+  },
+  deleteHospital: (req, res, next) => {
+    Hospital.findByPk(req.params.id)
       .then(hospital => {
-        if(!hospital) throw new error('該醫院不存在！')
-        return hospital.update({
-          name,
-          city,
-          address,
-          description,
-          openingHours,
-          closingHours,
-          website
-        })
+        if (!hospital) throw new Error('該醫院不存在！')
+        return hospital.destroy()
       })
-      .then(() => {
-        req.flash('success_messages', '已成功修改醫院資訊！')
-        res.redirect('/admin/hospitals')
-      })
+      .then(() => res.redirect('/admin/hospitals'))
       .catch(err => next(err))
-    } 
+  } 
 }
 
 module.exports = adminController

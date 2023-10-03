@@ -38,18 +38,18 @@
         <td>{{this.city}}</td>
         <td>
           <button type="button" class="btn btn-link">
-            <a class="btn btn-link link-primary" href="/admin/hospitals/{{this.id}}">
-              Show
+            <a class="btn btn-link link-primary" style="text-decoration:none;" href="/admin/hospitals/{{this.id}}">
+              更多資訊
             </a>
           </button>
           <button type="button" class="btn btn-link">
-            <a class="btn btn-link link-primary" href="/admin/hospitals/{{this.id}}/edit">
-              Edit
+            <a class="btn btn-link link-primary" style="text-decoration:none;" href="/admin/hospitals/{{this.id}}/edit">
+              修改
             </a>
           </button>
           <form action="/admin/hospitals/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
             <button type="submit" class="btn btn-link link-danger" style="text-decoration:none;"
-              onclick="return confirm(`確定要刪除 {{ this.name }} 嗎？`)">Delete</button>
+              onclick="return confirm(`確定要刪除 {{ this.name }} 嗎？`)">刪除</button>
           </form>
         </td>
       </tr>
