@@ -1,5 +1,6 @@
 const { Hospital } = require('../models')
 const { localFileHandler } = require('../helpers/file-helpers')
+const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getHospitals: (req, res, next) => {
@@ -24,7 +25,7 @@ const adminController = {
     if (!tel) throw new Error('請填上醫院電話號碼！')
     if (!openingHours || !closingHours) throw new Error('請填上醫院營業時間！')
     if (!description) throw new Error('請填上醫院簡介！')
-    localFileHandler(file)
+    imgurFileHandler(file)
       .then(filePath => Hospital.create({
         name,
         city,
@@ -72,7 +73,7 @@ const adminController = {
     if (!description) throw new Error('請填上醫院簡介！')
     Promise.all([
       Hospital.findByPk(req.params.id),
-      localFileHandler(file)
+      imgurFileHandler(file)
   ])
     .then(([hospital, filePath]) => {
       if(!hospital) throw new error('該醫院不存在！')
