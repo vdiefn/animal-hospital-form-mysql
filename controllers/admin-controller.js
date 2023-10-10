@@ -1,4 +1,4 @@
-const { Hospital } = require('../models')
+const { Hospital, User } = require('../models')
 const { localFileHandler } = require('../helpers/file-helpers')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
@@ -102,7 +102,29 @@ const adminController = {
       })
       .then(() => res.redirect('/admin/hospitals'))
       .catch(err => next(err))
-  } 
+  },
+  getUsers: (req, res, next) => {
+    return User.findAll({
+      raw: true
+    })
+      .then(users => res.render('admin/users', { users }))
+      .catch(err => next(err))
+  },
+  patchUser: (req, res, next) => {
+    return User.findByPk(req.params.id)
+    .then(user => {
+      if (!user) throw new Error('該使用者不存在！')
+      if (user.email === 'root@example.com'){
+        req.flash('error_messages', '不可變更該名管理員的權限！')
+        return res.redirect('back')
+      }
+      console.log(user)
+      user.update({ isAdmin: !user.isAdmin})
+      req.flash('success_messages', '使用者權限變更成功！')
+      return res.redirect('/admin/users') 
+    })
+    .catch(err => next(err))
+  }
 }
 
 module.exports = adminController

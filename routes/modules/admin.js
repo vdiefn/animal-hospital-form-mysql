@@ -11,6 +11,9 @@ router.put('/hospitals/:id', upload.single('image'), adminController.putHospital
 router.get('/hospitals/:id', adminController.getHospital)
 router.post('/hospitals', upload.single('image'), adminController.postHospital)
 
+router.get('/users', adminController.getUsers)
+router.patch('/users/:id', adminController.patchUser)
+
 router.delete('/hospitals/:id', adminController.deleteHospital)
 
 router.get('/hospitals', adminController.getHospitals)
