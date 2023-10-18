@@ -1,11 +1,13 @@
-const { Hospital, User } = require('../models')
+const { Hospital, User, Location } = require('../models')
 const { localFileHandler } = require('../helpers/file-helpers')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 
 const adminController = {
   getHospitals: (req, res, next) => {
     Hospital.findAll({
-      raw: true
+      raw: true,
+      nest: true,
+      include: [Location]
     })
     .then(hospitals => {
       res.render('admin/hospitals', { hospitals })
@@ -45,7 +47,9 @@ const adminController = {
   },
   getHospital:(req, res, next) => {
     Hospital.findByPk(req.params.id, {
-      raw: true
+      raw: true,
+      nest: true,
+      include: [Location]
     })
     .then(hospital => {
       if(!hospital) throw new Error('該家醫院不存在！')

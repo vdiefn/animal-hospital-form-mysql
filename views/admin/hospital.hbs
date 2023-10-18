@@ -1,23 +1,21 @@
 <div class="container">
   <div class="row mb-3">
-    <div class="d-flex col-md-12 align-items-center">
-      <h1>{{hospital.name}}</h1>
-      <h3 class="">&ensp;•&ensp;後台</h3>
+    <div class="col-md-12">
+      <h1>{{hospital.name}}<span style="font-size:36px;">&ensp;•&ensp;後台</span></h1>
+      <h5>{{hospital.Location.name}}</h5>
     </div>
     <div class="col-md-5">
       <div style="">
-        <img class="img-responsive center-block mb-5" src="{{hospital.image}}" width="100%"
+        <img class="img-responsive center-block mb-2" src="{{hospital.image}}" width="100%"
          onload="this.style.opacity=1;">
       </div>
       <div class="well mt-3">
-        <ul class="list-unstyled mb-4">
+        <ul class="list-unstyled mb-1">
+          
           <li><strong>電話:</strong> {{hospital.telephone}}</li>
           <li><strong>地址:</strong> {{hospital.address}}</li>
           <li><strong>營業時間:</strong> {{hospital.openingHours}} - {{hospital.closingHours}}</li>
-          <li><strong>是否提供急診服務:</strong>
-            
-          </li>
-
+          <li><strong>是否提供急診服務:</strong></li>
           <li><strong>網站：</strong> <a href="{{hospital.website}}" target="_blank">{{hospital.website}}</a></li>
         </ul>
       </div>
