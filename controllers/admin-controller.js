@@ -17,27 +17,31 @@ const adminController = {
     })
   },
   createHospital: (req, res, next) => {
-    return res.render('admin/create-hospital')
+    return Location.findAll({
+      raw: true
+    })
+    .then(locations => res.render('admin/create-hospital', { locations }))
+    .catch(err => next(err))
   },
   postHospital: (req, res, next) => {
-    const { name, city, tel, address, description, openingHours, closingHours, website } = req.body
+    const { name, tel, address, description, openingHours, closingHours, website, locationId } = req.body
     const { file } = req
     if (!name ) throw new Error('請填上醫院名稱！')
-    if (!city) throw new Error('請填上醫院所在縣市！')
+    if (!locationId) throw new Error('請填上醫院所在縣市位置！')
     if (!tel) throw new Error('請填上醫院電話號碼！')
     if (!openingHours || !closingHours) throw new Error('請填上醫院營業時間！')
     if (!description) throw new Error('請填上醫院簡介！')
     imgurFileHandler(file)
       .then(filePath => Hospital.create({
         name,
-        city,
         tel,
         address,
         description,
         image: filePath || null,
         openingHours,
         closingHours,
-        website
+        website,
+        locationId
       }))
     .then(() => {
       req.flash('success_messages', '已成功新增醫院資訊！')
@@ -58,20 +62,25 @@ const adminController = {
     .catch(err => next(err))
   },
   editHospital:(req, res, next) => {
-    Hospital.findByPk(req.params.id, {
-      raw: true
-    })
-    .then(hospital => {
+    return Promise.all([
+      Hospital.findByPk(req.params.id, {
+        raw: true
+      }),
+      Location.findAll({
+        raw: true
+      })
+    ])
+    .then(([hospital, locations ]) => {
       if (!hospital) throw new Error ('該醫院不存在！')
-      res.render('admin/edit-hospital', { hospital })
+      res.render('admin/edit-hospital', { hospital, locations })
     })
     .catch(err => next(err))
   },
   putHospital: (req, res, next) => {
-    const { name, city, tel, address, description, openingHours, closingHours, website } = req.body
+    const { name, tel, address, description, openingHours, closingHours, website, locationId } = req.body
     const { file } = req
     if (!name) throw new Error('請填上醫院名稱！')
-    if (!city) throw new Error('請填上醫院所在縣市！')
+    if (!locationId) throw new Error('請填上醫院所在縣市位置！')
     if (!tel) throw new Error('請填上醫院電話號碼！')
     if (!openingHours || !closingHours) throw new Error('請填上醫院營業時間！')
     if (!description) throw new Error('請填上醫院簡介！')
@@ -83,13 +92,13 @@ const adminController = {
       if(!hospital) throw new error('該醫院不存在！')
       return hospital.update({
         name,
-        city,
         address,
         description,
         openingHours,
         closingHours,
         website,
-        image: filePath || hospital.image
+        image: filePath || hospital.image,
+        locationId
       })
     })
     .then(() => {
