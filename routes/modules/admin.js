@@ -20,6 +20,7 @@ router.delete('/hospitals/:id', adminController.deleteHospital)
 router.get('/hospitals', adminController.getHospitals)
 
 router.get('/locations', locationController.getLocations)
+router.post('/locations', locationController.postLocation)
 
 
 

@@ -1,4 +1,16 @@
 {{>admin-tabs route='locations'}}
+
+<div class="d-flex align-items-center pt-3 pb-5 my-3 text-white-50 bg-purple">
+  <form class="row" action="/admin/locations" method="POST">
+    <div class="col-auto">
+      <input class="form-control" type="text" placeholder="縣市名稱" name="name">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-success" type="submit">新增</button>
+    </div>
+  </form>
+</div>
+
 <table class="table align-middle">
   <thead class="thead-dark">
     <tr>
