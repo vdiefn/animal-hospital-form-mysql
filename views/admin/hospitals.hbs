@@ -12,14 +12,9 @@
     </div>
     {{/if}}
   </div>
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="/admin/hospitals">醫院資訊</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/users">使用者資訊</a>
-    </li>
-  </ul>
+
+  {{> admin-tabs route='hospitals'}}
+
   <div class="d-flex mt-3">
     <a href='/admin/hospitals/create'>
       <button type="button" class="btn btn-outline-primary">新增醫院</button>

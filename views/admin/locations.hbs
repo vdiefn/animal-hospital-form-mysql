@@ -1,0 +1,30 @@
+{{>admin-tabs route='locations'}}
+<table class="table align-middle">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">縣市名稱</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each locations}}
+    <tr>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.name}}</td>
+      <td>
+        <button type="button" class="btn btn-link">
+          <a class="btn btn-link link-primary" href="/admin/locations/{{this.id}}" style="text-decoration:none;">
+            修改
+          </a>
+        </button>
+        <form action="/admin/locations/{{this.id}}?_method=DELETE" method="POST" style="display: inline;  ">
+          <button type="submit" class="btn btn-link link-danger" style="text-decoration:none;">刪除</button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<br />
+<br />

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const adminController = require('../../controllers/admin-controller')
+const locationController = require('../../controllers/location-controller')
 const upload = require('../../middleware/multer')
 
 router.get('/hospitals/create', adminController.createHospital)
@@ -17,6 +18,9 @@ router.patch('/users/:id', adminController.patchUser)
 router.delete('/hospitals/:id', adminController.deleteHospital)
 
 router.get('/hospitals', adminController.getHospitals)
+
+router.get('/locations', locationController.getLocations)
+
 
 
 router.use('/hospitals', (req, res) => res.redirect('/admin/hospitals'))
