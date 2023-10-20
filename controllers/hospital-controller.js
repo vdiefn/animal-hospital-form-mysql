@@ -1,7 +1,7 @@
 const { Hospital, Location } = require('../models')
 
 const hospitalController = {
-  getHospitals: (req, res) => {
+  getHospitals: (req, res, next) => {
     return Hospital.findAll({
       include: Location,
       raw: true,
@@ -18,13 +18,21 @@ const hospitalController = {
   },
   getHospital:(req, res, next) => {
     return Hospital.findByPk(req.params.id, {
-      include: Location,
-      nest: true,
-      raw: true
+      include: Location
     })
     .then(hospital => {
       if(!hospital) throw new Error('該醫院不存在！')
-      res.render('hospital', { hospital })
+      hospital.increment('viewCounts', { by: 1 })
+      res.render('hospital', { hospital: hospital.toJSON() })
+    })
+    .catch(err => next(err))
+  },
+  getDashboard: (req, res, next) => {
+    return Hospital.findByPk(req.params.id, {
+      include: Location
+    })
+    .then(hospital => {
+      res.render('dashboard', { hospital: hospital.toJSON() })
     })
     .catch(err => next(err))
   }

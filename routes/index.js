@@ -9,8 +9,11 @@ const passport = require('../config/passport')
 
 router.use('/admin', authenticatedAdmin, admin)
 
-router.get('/hospitals', hospitalController.getHospitals)
+router.get('/hospitals/:id/dashboard', hospitalController.getDashboard)
 router.get('/hospitals/:id', hospitalController.getHospital)
+router.get('/hospitals', hospitalController.getHospitals)
+
+
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
