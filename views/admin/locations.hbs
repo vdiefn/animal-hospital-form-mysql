@@ -8,7 +8,7 @@
     </div>
     <div class="col-auto">
       <button class="btn btn-outline-success" type="submit">修改</button>
-      <a class="btn btn-link link-secondary" href="/admin/location">or 新增</a>
+      <a class="btn btn-link link-secondary" style="text-decoration:none;" href="/admin/locations">or 新增</a>
     </div>
   </form>
   {{else}}
@@ -43,7 +43,7 @@
           </a>
         </button>
         <form action="/admin/locations/{{this.id}}?_method=DELETE" method="POST" style="display: inline;  ">
-          <button type="submit" class="btn btn-link link-danger" style="text-decoration:none;">刪除</button>
+          <button type="submit" class="btn btn-link link-danger" style="text-decoration:none;" onclick="return confirm(`確定要刪除 {{ this.name }} 嗎？`)">刪除</button>
         </form>
       </td>
     </tr>

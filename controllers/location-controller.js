@@ -30,6 +30,16 @@ const locationController = {
     })
     .then(() => res.redirect('/admin/locations'))
     .catch(err => next(err))
+  },
+  deleteLocation:(req, res, next) => {
+    const id = req.params.id
+    return Location.findByPk(id)
+      .then(location => {
+        if(!location) throw new Error('此縣市名稱不存在')
+        return location.destroy()
+      })
+      .then(() => res.redirect('/admin/locations'))
+      .catch(err => next(err))
   }
 }
 
