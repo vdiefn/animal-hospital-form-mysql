@@ -21,6 +21,8 @@ router.get('/hospitals', adminController.getHospitals)
 
 router.get('/locations', locationController.getLocations)
 router.post('/locations', locationController.postLocation)
+router.get('/locations/:id', locationController.getLocations)
+router.put('/locations/:id', locationController.putLocation)
 
 
 
