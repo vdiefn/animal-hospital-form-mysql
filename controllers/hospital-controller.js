@@ -15,6 +15,18 @@ const hospitalController = {
       res.render('hospitals', { hospitals: data })
     })
     .catch(err => next(err))
+  },
+  getHospital:(req, res, next) => {
+    return Hospital.findByPk(req.params.id, {
+      include: Location,
+      nest: true,
+      raw: true
+    })
+    .then(hospital => {
+      if(!hospital) throw new Error('該醫院不存在！')
+      res.render('hospital', { hospital })
+    })
+    .catch(err => next(err))
   }
 }
 

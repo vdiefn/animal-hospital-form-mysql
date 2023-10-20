@@ -10,6 +10,7 @@ const passport = require('../config/passport')
 router.use('/admin', authenticatedAdmin, admin)
 
 router.get('/hospitals', hospitalController.getHospitals)
+router.get('/hospitals/:id', hospitalController.getHospital)
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
