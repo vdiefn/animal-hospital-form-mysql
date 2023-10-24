@@ -1,4 +1,16 @@
 <div class="d-flex justify-content-start">
+<ul class="nav nav-pills">
+  <li class="nav-item">
+    <a class="nav-link {{#ifCond '' locationId}}active{{/ifCond}}" href="?locationId=">全部</a>
+  </li>
+  {{#each locations}}
+  <li class="nav-item">
+    <a class="nav-link {{#ifCond this.id ../locationId}}active{{/ifCond}}"
+      href="?locationId={{this.id}}">{{this.name}}</a>
+  </li>
+  {{/each}}
+</ul>
+
 
 </div>
 <!-- Hospital list -->

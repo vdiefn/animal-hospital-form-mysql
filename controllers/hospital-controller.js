@@ -2,17 +2,25 @@ const { Hospital, Location } = require('../models')
 
 const hospitalController = {
   getHospitals: (req, res, next) => {
-    return Hospital.findAll({
-      include: Location,
-      raw: true,
-      nest: true
-    })
-    .then(hospitals => {
+    const locationId = Number(req.query.locationId) || ''
+    return Promise.all([
+      Hospital.findAll({
+        include: Location,
+        where: {
+          ...locationId ? { locationId } : {}
+        },
+        raw: true,
+        nest: true
+      }),
+      Location.findAll({raw: true})  
+    ])
+    .then(([hospitals, locations]) => {
       const data = hospitals.map(r => ({
         ...r,
         description: r.description.substring(0, 50)
       }))
-      res.render('hospitals', { hospitals: data })
+      console.log(locationId)
+      res.render('hospitals', { hospitals: data, locations, locationId })
     })
     .catch(err => next(err))
   },
