@@ -1,26 +1,37 @@
 const { Hospital, Location } = require('../models')
+const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const hospitalController = {
   getHospitals: (req, res, next) => {
     const locationId = Number(req.query.locationId) || ''
+    const DEFAULT_LIMIT = 8
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || DEFAULT_LIMIT
+    const offset = getOffset(limit, page)
     return Promise.all([
-      Hospital.findAll({
+      Hospital.findAndCountAll({
         include: Location,
         where: {
           ...locationId ? { locationId } : {}
         },
-        raw: true,
-        nest: true
+        limit,
+        offset,
+        nest: true,
+        raw: true
       }),
       Location.findAll({raw: true})  
     ])
     .then(([hospitals, locations]) => {
-      const data = hospitals.map(r => ({
+      const data = hospitals.rows.map(r => ({
         ...r,
         description: r.description.substring(0, 50)
       }))
-      console.log(locationId)
-      res.render('hospitals', { hospitals: data, locations, locationId })
+      return res.render('hospitals', { 
+        hospitals: data, 
+        locations, 
+        locationId,
+        pagination: getPagination(limit, page, hospitals.count) 
+      })
     })
     .catch(err => next(err))
   },
